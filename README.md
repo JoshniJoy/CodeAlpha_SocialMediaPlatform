@@ -7,7 +7,7 @@ LinkLoop is a mini social media web application built with Django. This project 
 
 ## 🔗 Project Demo
 
-Live URL - [Demo Link](linkloop.pythonanywhere.com)
+Live URL - [Demo link](https://linkloop.pythonanywhere.com/)
 
 ---
 
