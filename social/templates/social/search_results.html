@@ -1,0 +1,51 @@
+{% extends 'social/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="post-card">
+            {% if query %}
+                <h3 class="mb-4">Search Results for "<span class="text-primary">{{ query }}</span>"</h3>
+            {% else %}
+                <h3 class="mb-4">Please enter a search term to find users.</h3>
+            {% endif %}
+        </div>
+
+        {% for user_profile in results %}
+            <!-- THIS IS THE MODIFIED BLOCK -->
+            <div class="post-card d-flex align-items-center">
+                
+                <!-- This part now takes up all available space -->
+                <div class="d-flex align-items-center flex-grow-1">
+                    <div class="flex-shrink-0">
+                        {% if user_profile.profile.profile_picture %}
+                            <img src="{{ user_profile.profile.profile_picture.url }}" class="rounded-circle" width="50" height="50" style="object-fit: cover;" alt="{{ user_profile.username }}'s profile picture">
+                        {% else %}
+                            <img src="{% static 'social/images/default-avatar.png' %}" class="rounded-circle" width="50" height="50" alt="Default profile picture">
+                        {% endif %}
+                    </div>
+                    <div class="ms-3">
+                        <a href="{% url 'profile' user_profile.username %}" class="text-dark fw-bold text-decoration-none">
+                            @{{ user_profile.username }}
+                        </a>
+                        <p class="mb-0 text-muted small">{{ user_profile.profile.bio|truncatewords:15 }}</p>
+                    </div>
+                </div>
+
+                <!-- This button is now separate and will not crush the text -->
+                <div class="ms-auto">
+                    <a href="{% url 'profile' user_profile.username %}" class="btn btn-outline-primary btn-sm">View Profile</a>
+                </div>
+
+            </div>
+        {% empty %}
+            {% if query %}
+                <div class="post-card text-center">
+                    <p class="mb-0">No users found matching your search.</p>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
